@@ -146,6 +146,11 @@ fn build_librdkafka() {
     } else {
         config.define("WITH_SASL", "0");
     }
+    if env::var("CARGO_FEATURE_EXTERNAL_LZ4").is_ok() {
+        config.define("ENABLE_LZ4_EXT", "1");
+    } else {
+        config.define("ENABLE_LZ4_EXT", "0");
+    }
     let dst = config.build();
     println!("cargo:rustc-link-search=native={}/build/src", dst.display());
     println!("cargo:rustc-link-lib=static=rdkafka");
